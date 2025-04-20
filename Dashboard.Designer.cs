@@ -102,7 +102,7 @@
             this.btnDownload.ForeColor = System.Drawing.Color.White;
             this.btnDownload.Location = new System.Drawing.Point(20, 320);
             this.btnDownload.Name = "btnDownload";
-            this.btnDownload.Size = new System.Drawing.Size(120, 40);
+            this.btnDownload.Size = new System.Drawing.Size(150, 40);
             this.btnDownload.TabIndex = 1;
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = false;

@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace AUDIO_STEGNOGRAPHY
 {
@@ -51,6 +52,8 @@ namespace AUDIO_STEGNOGRAPHY
 
             btnPrevious.Enabled = currentStep > 1;
             btnNext.Text = currentStep < 4 ? "Next" : "Finish";
+            if(currentStep == 4)
+               btnNext.Click += BtnUpload_Click;
         }
 
         private void LoadStep1()
@@ -88,7 +91,7 @@ namespace AUDIO_STEGNOGRAPHY
                 Name = "txtMessage",
                 Font = new System.Drawing.Font("Segoe UI", 10F),
                 Location = new System.Drawing.Point(20, 60),
-                Size = new System.Drawing.Size(400, 30)
+                Size = new System.Drawing.Size(200, 200)
             };
 
             txtMessage.TextChanged += (s, e) => { authorMessage = txtMessage.Text; };
@@ -146,19 +149,9 @@ namespace AUDIO_STEGNOGRAPHY
                 Font = new System.Drawing.Font("Segoe UI", 10F),
                 Location = new System.Drawing.Point(20, 100)
             };
-
-            Button btnUpload = new Button
-            {
-                Text = "Embed and Save",
-                Font = new System.Drawing.Font("Segoe UI", 10F),
-                Location = new System.Drawing.Point(20, 140)
-            };
-            btnUpload.Click += BtnUpload_Click;
-
             panelContent.Controls.Add(lblPreview);
             panelContent.Controls.Add(lblFilePath);
             panelContent.Controls.Add(lblMessagePreview);
-            panelContent.Controls.Add(btnUpload);
         }
 
         private void BtnBrowse_Click(object sender, EventArgs e)
@@ -172,6 +165,8 @@ namespace AUDIO_STEGNOGRAPHY
                     MessageBox.Show("File selected: " + selectedFilePath, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+            currentStep++;
+            LoadStep();
         }
 
         private void BtnUpload_Click(object sender, EventArgs e)
@@ -184,11 +179,12 @@ namespace AUDIO_STEGNOGRAPHY
 
             string fileName = Path.GetFileName(selectedFilePath);
             byte[] fileData;
-
+            string encryptionKey128 = "1234567890abcdef"; // 16 characters
+   
             try
             {
                 // Embed the hidden message and password in the audio file
-                fileData = EmbedHiddenMessage(selectedFilePath, authorMessage, uniquePassword);
+                fileData = EmbedHiddenMessage(selectedFilePath, authorMessage, uniquePassword, encryptionKey128);
             }
             catch (Exception ex)
             {
@@ -228,7 +224,7 @@ namespace AUDIO_STEGNOGRAPHY
             }
         }
 
-        private byte[] EmbedHiddenMessage(string filePath, string message, string password)
+        private byte[] EmbedHiddenMessage(string filePath, string message, string password, string encryptionKey)
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -238,18 +234,16 @@ namespace AUDIO_STEGNOGRAPHY
                     inputFileStream.CopyTo(memoryStream);
                 }
 
-                // Embed the hidden message and password with delimiters
-                string hiddenData = "|HIDDEN_DATA_START|" + message + "|" + password + "|HIDDEN_DATA_END|";
-                byte[] hiddenDataBytes = System.Text.Encoding.UTF8.GetBytes(hiddenData);
+                // Encrypt the hidden message and password
+                string hiddenData = message + "|" + password;
+                byte[] encryptedData = EncryptData(hiddenData, encryptionKey);
 
-                // Append the hidden data to the file
-                memoryStream.Write(hiddenDataBytes, 0, hiddenDataBytes.Length);
+                // Append the encrypted data to the file
+                memoryStream.Write(encryptedData, 0, encryptedData.Length);
 
                 return memoryStream.ToArray();
             }
         }
-
-
 
         private void btnPrevious_Click(object sender, EventArgs e)
         {
@@ -257,6 +251,28 @@ namespace AUDIO_STEGNOGRAPHY
             {
                 currentStep--;
                 LoadStep();
+            }
+        }
+
+        private byte[] EncryptData(string plainText, string key)
+        {
+            using (RijndaelManaged rijndael = new RijndaelManaged())
+            {
+                rijndael.Key = Encoding.UTF8.GetBytes(key.PadRight(32).Substring(0, 32)); // Ensure the key is 32 bytes
+                rijndael.IV = Encoding.UTF8.GetBytes(key.PadRight(16).Substring(0, 16));  // Ensure the IV is 16 bytes
+
+                ICryptoTransform encryptor = rijndael.CreateEncryptor(rijndael.Key, rijndael.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
+                        cryptoStream.Write(plainBytes, 0, plainBytes.Length);
+                        cryptoStream.FlushFinalBlock();
+                        return memoryStream.ToArray();
+                    }
+                }
             }
         }
 
@@ -269,7 +285,7 @@ namespace AUDIO_STEGNOGRAPHY
             }
             else
             {
-                MessageBox.Show("Workflow completed!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // MessageBox.Show("Workflow completed!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
         }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace AUDIO_STEGNOGRAPHY
 {
@@ -43,30 +44,25 @@ namespace AUDIO_STEGNOGRAPHY
 
             try
             {
-                string hiddenData = ExtractHiddenMessage(selectedFilePath);
+                string hiddenData = ExtractHiddenMessage(selectedFilePath, txtPassword.Text);
                 if (hiddenData == null)
                 {
-                    MessageBox.Show("No hidden data found in the file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Invalid password or no hidden data found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 string[] parts = hiddenData.Split('|');
                 if (parts.Length != 2)
                 {
-                    MessageBox.Show($"Invalid hidden data format: {hiddenData}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Invalid hidden data format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 string message = parts[0];
                 string password = parts[1];
 
-                if (password != txtPassword.Text)
-                {
-                    MessageBox.Show("Incorrect password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
                 MessageBox.Show("Hidden Message: " + message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
 
             }
             catch (Exception ex)
@@ -75,7 +71,30 @@ namespace AUDIO_STEGNOGRAPHY
             }
         }
 
-        private string ExtractHiddenMessage(string filePath)
+        private string DecryptData(byte[] cipherText, string key)
+        {
+            using (RijndaelManaged rijndael = new RijndaelManaged())
+            {
+                rijndael.Key = Encoding.UTF8.GetBytes(key.PadRight(32).Substring(0, 32)); // Ensure the key is 32 bytes
+                rijndael.IV = Encoding.UTF8.GetBytes(key.PadRight(16).Substring(0, 16));  // Ensure the IV is 16 bytes
+
+                ICryptoTransform decryptor = rijndael.CreateDecryptor(rijndael.Key, rijndael.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream(cipherText))
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader reader = new StreamReader(cryptoStream, Encoding.UTF8))
+                        {
+                            return reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private string ExtractHiddenMessage(string filePath, string encryptionKey)
         {
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
@@ -84,20 +103,15 @@ namespace AUDIO_STEGNOGRAPHY
                 byte[] buffer = new byte[2048];
                 int bytesRead = fileStream.Read(buffer, 0, buffer.Length);
 
-                // Convert the bytes to a string
-                string extractedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
-                // Locate the hidden data using the delimiters
-                int startIndex = extractedData.IndexOf("|HIDDEN_DATA_START|");
-                int endIndex = extractedData.IndexOf("|HIDDEN_DATA_END|");
-
-                if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
+                // Decrypt the hidden data
+                try
                 {
-                    // Extract the hidden data
-                    return extractedData.Substring(startIndex + "|HIDDEN_DATA_START|".Length, endIndex - startIndex - "|HIDDEN_DATA_START|".Length);
+                    return DecryptData(buffer, encryptionKey);
                 }
-
-                return null; // No hidden data found
+                catch
+                {
+                    return null; // Decryption failed
+                }
             }
         }
 
