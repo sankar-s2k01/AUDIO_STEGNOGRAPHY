@@ -1,0 +1,50 @@
+# Ignore Visual Studio Code settings
+.vscode/
+.vs/
+bin/
+obj/
+packages/
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Ignore virtual environments
+env/
+venv/
+ENV/
+VENV/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Ignore compiled files
+*.class
+*.o
+*.so
+
+# Ignore Python egg files
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Ignore audio processing temporary files
+*.wav~
+*.mp3~
+*.flac~
+*.tmp
+
+# Ignore OneDrive temporary files
+*.~*
+
+# Ignore Git-specific files
+.git/
