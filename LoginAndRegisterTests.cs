@@ -1,223 +1,123 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Windows.Forms;
+using System;
+using System.IO;
 
 namespace AUDIO_STEGNOGRAPHY.Tests
 {
     [TestClass]
-    public class LoginAndRegisterTests
+    public class EmbedAndExtractTests
     {
-        // Login Tests
-        [TestMethod]
-        public void TestValidLogin()
-        {
-            // Arrange
-            var loginForm = new Login();
-            loginForm.txtUsername.Text = "testuser";
-            loginForm.txtPassword.Text = "password123";
-
-            // Act
-            loginForm.btnLogin.PerformClick();
-
-            // Assert
-            Assert.AreEqual("Dashboard", loginForm.CurrentView, "The dashboard should be displayed after a successful login.");
-        }
+        // Mock data for testing
+        public const string TestMessage = "Test Message";
+        public const string TestPassword = "1234";
+        public const string InvalidPassword = "wrongpassword";
+        public const string TestFilePath = "test.mp3";
+        public const string InvalidFilePath = "test.txt";
 
         [TestMethod]
-        public void TestInvalidLogin()
+        public void TestCompleteEmbedWorkflow()
         {
             // Arrange
-            var loginForm = new Login();
-            loginForm.txtUsername.Text = "invaliduser";
-            loginForm.txtPassword.Text = "wrongpassword";
+            var embedWorkflow = new EmbedDataWorkflow();
+            embedWorkflow.selectedFilePath = TestFilePath;
+            embedWorkflow.authorMessage = TestMessage;
+            embedWorkflow.uniquePassword = TestPassword;
 
             // Act
-            loginForm.btnLogin.PerformClick();
-
-            // Assert
-            Assert.AreEqual("Invalid credentials", loginForm.ErrorMessage, "An error message should be displayed for invalid login.");
-        }
-
-        [TestMethod]
-        public void TestEmptyUsernameInLogin()
-        {
-            // Arrange
-            var loginForm = new Login();
-            loginForm.txtUsername.Text = "";
-            loginForm.txtPassword.Text = "password123";
-
-            // Act
-            loginForm.btnLogin.PerformClick();
-
-            // Assert
-            Assert.AreEqual("Username cannot be empty", loginForm.ErrorMessage, "An error message should be displayed for empty username.");
-        }
-
-        [TestMethod]
-        public void TestEmptyPasswordInLogin()
-        {
-            // Arrange
-            var loginForm = new Login();
-            loginForm.txtUsername.Text = "testuser";
-            loginForm.txtPassword.Text = "";
-
-            // Act
-            loginForm.btnLogin.PerformClick();
-
-            // Assert
-            Assert.AreEqual("Password cannot be empty", loginForm.ErrorMessage, "An error message should be displayed for empty password.");
-        }
-
-        // Register Tests
-        [TestMethod]
-        public void TestValidRegistration()
-        {
-            // Arrange
-            var registerForm = new Register();
-            registerForm.txtUsername.Text = "newuser";
-            registerForm.txtEmail.Text = "newuser@example.com";
-            registerForm.txtPassword.Text = "password123";
-            registerForm.txtConfirmPassword.Text = "password123";
-
-            // Act
-            registerForm.btnRegister.PerformClick();
-
-            // Assert
-            Assert.AreEqual("Registration successful", registerForm.SuccessMessage, "A success message should be displayed after successful registration.");
-        }
-
-        [TestMethod]
-        public void TestEmptyUsernameInRegistration()
-        {
-            // Arrange
-            var registerForm = new Register();
-            registerForm.txtUsername.Text = "";
-            registerForm.txtEmail.Text = "newuser@example.com";
-            registerForm.txtPassword.Text = "password123";
-            registerForm.txtConfirmPassword.Text = "password123";
-
-            // Act
-            registerForm.btnRegister.PerformClick();
-
-            // Assert
-            Assert.AreEqual("Username cannot be empty", registerForm.ErrorMessage, "An error message should be displayed for empty username.");
-        }
-
-        [TestMethod]
-        public void TestInvalidEmailInRegistration()
-        {
-            // Arrange
-            var registerForm = new Register();
-            registerForm.txtUsername.Text = "newuser";
-            registerForm.txtEmail.Text = "invalid-email";
-            registerForm.txtPassword.Text = "password123";
-            registerForm.txtConfirmPassword.Text = "password123";
-
-            // Act
-            registerForm.btnRegister.PerformClick();
-
-            // Assert
-            Assert.AreEqual("Invalid email address", registerForm.ErrorMessage, "An error message should be displayed for invalid email.");
-        }
-
-        [TestMethod]
-        public void TestPasswordMismatchInRegistration()
-        {
-            // Arrange
-            var registerForm = new Register();
-            registerForm.txtUsername.Text = "newuser";
-            registerForm.txtEmail.Text = "newuser@example.com";
-            registerForm.txtPassword.Text = "password123";
-            registerForm.txtConfirmPassword.Text = "password456";
-
-            // Act
-            registerForm.btnRegister.PerformClick();
-
-            // Assert
-            Assert.AreEqual("Passwords do not match", registerForm.ErrorMessage, "An error message should be displayed for password mismatch.");
-        }
-
-        [TestMethod]
-        public void TestEmptyPasswordInRegistration()
-        {
-            // Arrange
-            var registerForm = new Register();
-            registerForm.txtUsername.Text = "newuser";
-            registerForm.txtEmail.Text = "newuser@example.com";
-            registerForm.txtPassword.Text = "";
-            registerForm.txtConfirmPassword.Text = "";
-
-            // Act
-            registerForm.btnRegister.PerformClick();
-
-            // Assert
-            Assert.AreEqual("Password cannot be empty", registerForm.ErrorMessage, "An error message should be displayed for empty password.");
-        }
-    }
-
-    public class Login
-    {
-        // Existing code for the Login class
-
-        public string CurrentView { get; set; }
-
-        public Login()
-        {
-            CurrentView = "Login"; // Default view
-        }
-
-        public void btnLogin_PerformClick()
-        {
-            // Simulate login logic
-            if (txtUsername.Text == "testuser" && txtPassword.Text == "password123")
+            try
             {
-                CurrentView = "Dashboard";
+                byte[] result = embedWorkflow.EmbedHiddenMessage(TestFilePath, TestMessage, TestPassword);
+
+                // Assert
+                Assert.IsNotNull(result, "The file should be successfully embedded with hidden data.");
             }
-            else
+            catch (Exception ex)
             {
-                ErrorMessage = "Invalid credentials";
+                Assert.Fail($"Test failed with exception: {ex.Message}");
             }
         }
 
-        public string ErrorMessage { get; set; }
-        public TextBox txtUsername { get; set; } = new TextBox();
-        public TextBox txtPassword { get; set; } = new TextBox();
-        public Button btnLogin { get; set; } = new Button();
-    }
-
-    public class Register
-    {
-        public string SuccessMessage { get; set; }
-        public string ErrorMessage { get; set; }
-
-        public TextBox txtUsername { get; set; } = new TextBox();
-        public TextBox txtEmail { get; set; } = new TextBox();
-        public TextBox txtPassword { get; set; } = new TextBox();
-        public TextBox txtConfirmPassword { get; set; } = new TextBox();
-        public Button btnRegister { get; set; } = new Button();
-
-        public void btnRegister_PerformClick()
+        [TestMethod]
+        public void TestMissingFileInEmbed()
         {
-            // Simulate registration logic
-            if (string.IsNullOrWhiteSpace(txtUsername.Text))
+            // Arrange
+            var embedWorkflow = new EmbedDataWorkflow();
+            embedWorkflow.selectedFilePath = null;
+            embedWorkflow.authorMessage = TestMessage;
+            embedWorkflow.uniquePassword = TestPassword;
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                ErrorMessage = "Username cannot be empty";
-            }
-            else if (string.IsNullOrWhiteSpace(txtEmail.Text) || !txtEmail.Text.Contains("@"))
+                embedWorkflow.EmbedHiddenMessage(embedWorkflow.selectedFilePath, TestMessage, TestPassword);
+            }, "An exception should be thrown when no file is selected.");
+        }
+
+        [TestMethod]
+        public void TestCompleteExtractWorkflow()
+        {
+            // Arrange
+            var extractWorkflow = new ExtractDataWorkflow();
+            string encryptedFilePath = TestFilePath; // Assume this file has encrypted data
+
+            // Act
+            try
             {
-                ErrorMessage = "Invalid email address";
+                string result = extractWorkflow.ExtractHiddenMessage(encryptedFilePath, TestPassword);
+
+                // Assert
+                Assert.IsNotNull(result, "The hidden message should be successfully extracted.");
             }
-            else if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            catch (Exception ex)
             {
-                ErrorMessage = "Password cannot be empty";
+                Assert.Fail($"Test failed with exception: {ex.Message}");
             }
-            else if (txtPassword.Text != txtConfirmPassword.Text)
+        }
+
+        [TestMethod]
+        public void TestIncorrectPasswordInExtract()
+        {
+            // Arrange
+            var extractWorkflow = new ExtractDataWorkflow();
+            string encryptedFilePath = TestFilePath; // Assume this file has encrypted data
+
+            // Act & Assert
+            Assert.ThrowsException<UnauthorizedAccessException>(() =>
             {
-                ErrorMessage = "Passwords do not match";
-            }
-            else
+                extractWorkflow.ExtractHiddenMessage(encryptedFilePath, InvalidPassword);
+            }, "An exception should be thrown for an incorrect password.");
+        }
+
+        [TestMethod]
+        public void TestEncryptAndDecryptData()
+        {
+            // Arrange
+            var embedWorkflow = new EmbedDataWorkflow();
+            string key = "12345678901234567890123456789012"; // 32-byte key
+            string iv = "1234567890123456"; // 16-byte IV
+
+            // Act
+            byte[] encryptedData = embedWorkflow.EncryptData(TestMessage, key, iv);
+            string decryptedData = embedWorkflow.DecryptData(encryptedData, key, iv);
+
+            // Assert
+            Assert.AreEqual(TestMessage, decryptedData, "The decrypted data should match the original message.");
+        }
+
+        [TestMethod]
+        public void TestInvalidFileFormatInEmbed()
+        {
+            // Arrange
+            var embedWorkflow = new EmbedDataWorkflow();
+            embedWorkflow.selectedFilePath = InvalidFilePath;
+            embedWorkflow.authorMessage = TestMessage;
+            embedWorkflow.uniquePassword = TestPassword;
+
+            // Act & Assert
+            Assert.ThrowsException<InvalidDataException>(() =>
             {
-                SuccessMessage = "Registration successful";
-            }
+                embedWorkflow.EmbedHiddenMessage(embedWorkflow.selectedFilePath, TestMessage, TestPassword);
+            }, "An exception should be thrown for an invalid file format.");
         }
     }
 }

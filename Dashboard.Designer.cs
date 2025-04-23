@@ -2,13 +2,13 @@
 {
     partial class Dashboard
     {
-        private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.SplitContainer splitContainer;
-        private System.Windows.Forms.Button btnEmbedData;
-        private System.Windows.Forms.Button btnExtractData;
-        private System.Windows.Forms.DataGridView dgvAudioFiles;
-        private System.Windows.Forms.Button btnDownload;
+        public System.ComponentModel.IContainer components = null;
+        public System.Windows.Forms.Label lblTitle;
+        public System.Windows.Forms.SplitContainer splitContainer;
+        public System.Windows.Forms.Button btnEmbedData;
+        public System.Windows.Forms.Button btnExtractData;
+        public System.Windows.Forms.DataGridView dgvAudioFiles;
+        public System.Windows.Forms.Button btnDownload;
 
         protected override void Dispose(bool disposing)
         {
@@ -19,7 +19,7 @@
             base.Dispose(disposing);
         }
 
-        private void InitializeComponent()
+        public void InitializeComponent()
         {
             this.lblTitle = new System.Windows.Forms.Label();
             this.splitContainer = new System.Windows.Forms.SplitContainer();

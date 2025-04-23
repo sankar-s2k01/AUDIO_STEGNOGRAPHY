@@ -2,14 +2,14 @@
 {
     partial class ExtractDataWorkflow
     {
-        private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Panel panelContent;
-        private System.Windows.Forms.Button btnExtract;
-        private System.Windows.Forms.Button btnBrowse;
-        private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.Label lblFilePath;
+        public System.ComponentModel.IContainer components = null;
+        public System.Windows.Forms.Label lblTitle;
+        public System.Windows.Forms.Panel panelContent;
+        public System.Windows.Forms.Button btnExtract;
+        public System.Windows.Forms.Button btnBrowse;
+        public System.Windows.Forms.TextBox txtPassword;
+        public System.Windows.Forms.Label lblPassword;
+        public System.Windows.Forms.Label lblFilePath;
 
         protected override void Dispose(bool disposing)
         {
@@ -20,7 +20,7 @@
             base.Dispose(disposing);
         }
 
-        private void InitializeComponent()
+        public void InitializeComponent()
         {
             this.lblTitle = new System.Windows.Forms.Label();
             this.panelContent = new System.Windows.Forms.Panel();

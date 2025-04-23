@@ -15,7 +15,7 @@ namespace AudioSteganography
             ExecuteSqlScript(connectionString, scriptPath);
         }
 
-        private static void ExecuteSqlScript(string connectionString, string scriptPath)
+        public static void ExecuteSqlScript(string connectionString, string scriptPath)
         {
             string script = File.ReadAllText(scriptPath);
 

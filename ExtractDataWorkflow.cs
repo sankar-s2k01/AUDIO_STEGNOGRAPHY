@@ -7,14 +7,14 @@ namespace AUDIO_STEGNOGRAPHY
 {
     public partial class ExtractDataWorkflow : Form
     {
-        private string selectedFilePath;
+        public string selectedFilePath;
 
         public ExtractDataWorkflow()
         {
             InitializeComponent();
         }
 
-        private void btnBrowse_Click(object sender, EventArgs e)
+        public void btnBrowse_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -27,7 +27,7 @@ namespace AUDIO_STEGNOGRAPHY
             }
         }
 
-        private void btnExtract_Click(object sender, EventArgs e)
+        public void btnExtract_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(selectedFilePath))
             {
@@ -75,7 +75,7 @@ namespace AUDIO_STEGNOGRAPHY
             }
         }
 
-        private string ExtractHiddenMessage(string filePath)
+        public string ExtractHiddenMessage(string filePath)
         {
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {

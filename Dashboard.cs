@@ -9,7 +9,7 @@ namespace AUDIO_STEGNOGRAPHY
 {
     public partial class Dashboard : Form
     {
-        private int userId;
+        public int userId;
         public Dashboard(int userId)
         {
             InitializeComponent();
@@ -41,7 +41,7 @@ namespace AUDIO_STEGNOGRAPHY
         }
 
 
-        private void btnDownload_Click(object sender, EventArgs e)
+        public void btnDownload_Click(object sender, EventArgs e)
         {
             if (dgvAudioFiles.SelectedRows.Count == 0)
             {
@@ -83,14 +83,14 @@ namespace AUDIO_STEGNOGRAPHY
             }
         }
 
-        private void btnEmbedData_Click(object sender, EventArgs e)
+        public void btnEmbedData_Click(object sender, EventArgs e)
         {
             // Open the Embed Data workflow
             EmbedDataWorkflow embedDataWorkflow = new EmbedDataWorkflow(userId, this);
             embedDataWorkflow.Show();
         }
 
-        private void btnExtractData_Click(object sender, EventArgs e)
+        public void btnExtractData_Click(object sender, EventArgs e)
         {
             // Open the Extract Data workflow
             ExtractDataWorkflow extractDataWorkflow = new ExtractDataWorkflow();

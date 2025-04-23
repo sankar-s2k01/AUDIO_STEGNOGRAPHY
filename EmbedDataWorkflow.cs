@@ -9,12 +9,12 @@ namespace AUDIO_STEGNOGRAPHY
 {
     public partial class EmbedDataWorkflow : Form
     {
-        private int currentStep = 1;
-        private string selectedFilePath;
-        private string authorMessage = ""; // Initialize to an empty string 
-        private string uniquePassword = "";
-        private int userId;
-        private Dashboard dashboard;
+        public int currentStep = 1;
+        public string selectedFilePath;
+        public string authorMessage = ""; // Initialize to an empty string 
+        public string uniquePassword = "";
+        public int userId;
+        public Dashboard dashboard;
         public EmbedDataWorkflow(int userId, Dashboard dashboard)
         {
             this.dashboard = dashboard;
@@ -29,7 +29,7 @@ namespace AUDIO_STEGNOGRAPHY
             LoadStep();
         }
 
-        private void LoadStep()
+        public void LoadStep()
         {
             panelContent.Controls.Clear();
 
@@ -57,7 +57,7 @@ namespace AUDIO_STEGNOGRAPHY
                 btnNext.Show();
         }
 
-        private void LoadStep1()
+        public void LoadStep1()
         {
             Label lblUpload = new Label
             {
@@ -83,7 +83,7 @@ namespace AUDIO_STEGNOGRAPHY
             panelContent.Controls.Add(btnBrowse);
         }
 
-        private void LoadStep2()
+        public void LoadStep2()
         {
             Label lblMessage = new Label
             {
@@ -107,7 +107,7 @@ namespace AUDIO_STEGNOGRAPHY
             panelContent.Controls.Add(txtMessage);
         }
 
-        private void LoadStep3()
+        public void LoadStep3()
         {
             Label lblPassword = new Label
             {
@@ -133,7 +133,7 @@ namespace AUDIO_STEGNOGRAPHY
             panelContent.Controls.Add(txtPassword);
         }
 
-        private void LoadStep4()
+        public void LoadStep4()
         {
             Label lblPreview = new Label
             {
@@ -176,7 +176,7 @@ namespace AUDIO_STEGNOGRAPHY
             panelContent.Controls.Add(btnUpload);
         }
 
-        private void BtnBrowse_Click(object sender, EventArgs e)
+        public void BtnBrowse_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -190,7 +190,7 @@ namespace AUDIO_STEGNOGRAPHY
             }
         }
 
-        private void BtnUpload_Click(object sender, EventArgs e)
+        public void BtnUpload_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(selectedFilePath) || string.IsNullOrWhiteSpace(authorMessage) || string.IsNullOrWhiteSpace(uniquePassword))
             {
@@ -244,7 +244,7 @@ namespace AUDIO_STEGNOGRAPHY
             }
         }
 
-        private byte[] EmbedHiddenMessage(string filePath, string message, string password)
+        public byte[] EmbedHiddenMessage(string filePath, string message, string password)
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -267,7 +267,7 @@ namespace AUDIO_STEGNOGRAPHY
 
 
 
-        private void btnPrevious_Click(object sender, EventArgs e)
+        public void btnPrevious_Click(object sender, EventArgs e)
         {
             if (currentStep > 1)
             {
@@ -276,7 +276,7 @@ namespace AUDIO_STEGNOGRAPHY
             }
         }
 
-        private void btnNext_Click(object sender, EventArgs e)
+        public void btnNext_Click(object sender, EventArgs e)
         {
             if (currentStep < 4)
             {

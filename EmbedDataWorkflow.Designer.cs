@@ -2,11 +2,11 @@
 {
     partial class EmbedDataWorkflow
     {
-        private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Panel panelContent;
-        private System.Windows.Forms.Button btnPrevious;
-        private System.Windows.Forms.Button btnNext;
+        public System.ComponentModel.IContainer components = null;
+        public System.Windows.Forms.Label lblTitle;
+        public System.Windows.Forms.Panel panelContent;
+        public System.Windows.Forms.Button btnPrevious;
+        public System.Windows.Forms.Button btnNext;
 
         protected override void Dispose(bool disposing)
         {
@@ -17,7 +17,7 @@
             base.Dispose(disposing);
         }
 
-        private void InitializeComponent()
+        public void InitializeComponent()
         {
             this.lblTitle = new System.Windows.Forms.Label();
             this.panelContent = new System.Windows.Forms.Panel();
