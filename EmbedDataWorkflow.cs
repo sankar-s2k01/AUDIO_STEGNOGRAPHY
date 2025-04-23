@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.Security.Cryptography;
 
 namespace AUDIO_STEGNOGRAPHY
 {
@@ -12,8 +11,8 @@ namespace AUDIO_STEGNOGRAPHY
     {
         private int currentStep = 1;
         private string selectedFilePath;
-        private string authorMessage;
-        private string uniquePassword;
+        private string authorMessage = ""; // Initialize to an empty string 
+        private string uniquePassword = "";
         private int userId;
         private Dashboard dashboard;
         public EmbedDataWorkflow(int userId, Dashboard dashboard)
@@ -52,8 +51,10 @@ namespace AUDIO_STEGNOGRAPHY
 
             btnPrevious.Enabled = currentStep > 1;
             btnNext.Text = currentStep < 4 ? "Next" : "Finish";
-            if(currentStep == 4)
-               btnNext.Click += BtnUpload_Click;
+            if (currentStep == 4)
+                btnNext.Hide();
+            else
+                btnNext.Show();
         }
 
         private void LoadStep1()
@@ -62,15 +63,20 @@ namespace AUDIO_STEGNOGRAPHY
             {
                 Text = "Step 1: Upload Audio File",
                 AutoSize = true,
-                Font = new System.Drawing.Font("Segoe UI", 10F),
+                Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold),
                 Location = new System.Drawing.Point(20, 20)
             };
             Button btnBrowse = new Button
             {
                 Text = "Browse",
-                Font = new System.Drawing.Font("Segoe UI", 10F),
-                Location = new System.Drawing.Point(20, 60)
+                Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold), // Bold font
+                Location = new System.Drawing.Point(20, 60),
+                Size = new System.Drawing.Size(120, 30), // Adjusted size
+                BackColor = System.Drawing.Color.Green, // Background color
+                ForeColor = System.Drawing.Color.White, // Text color
             };
+            btnBrowse.FlatAppearance.BorderSize = 1; // Border thickness
+            btnBrowse.FlatAppearance.BorderColor = System.Drawing.Color.DarkBlue; // Border color
             btnBrowse.Click += BtnBrowse_Click;
 
             panelContent.Controls.Add(lblUpload);
@@ -83,15 +89,16 @@ namespace AUDIO_STEGNOGRAPHY
             {
                 Text = "Step 2: Enter Music Author Message",
                 AutoSize = true,
-                Font = new System.Drawing.Font("Segoe UI", 10F),
+                Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold),
                 Location = new System.Drawing.Point(20, 20)
             };
             TextBox txtMessage = new TextBox
             {
                 Name = "txtMessage",
-                Font = new System.Drawing.Font("Segoe UI", 10F),
+                Font = new System.Drawing.Font("Open Sans", 10F),
                 Location = new System.Drawing.Point(20, 60),
-                Size = new System.Drawing.Size(200, 200)
+                Size = new System.Drawing.Size(200, 40),
+                Text = authorMessage // Set the initial text to the current message
             };
 
             txtMessage.TextChanged += (s, e) => { authorMessage = txtMessage.Text; };
@@ -106,16 +113,18 @@ namespace AUDIO_STEGNOGRAPHY
             {
                 Text = "Step 3: Enter Unique Password",
                 AutoSize = true,
-                Font = new System.Drawing.Font("Segoe UI", 10F),
+                Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold),
                 Location = new System.Drawing.Point(20, 20)
             };
             TextBox txtPassword = new TextBox
             {
                 Name = "txtPassword",
-                Font = new System.Drawing.Font("Segoe UI", 10F),
+                Font = new System.Drawing.Font("Open Sans", 10F),
                 Location = new System.Drawing.Point(20, 60),
                 Size = new System.Drawing.Size(200, 30),
-                PasswordChar = '*'
+                PasswordChar = '*',
+                Text = uniquePassword // Set the initial text to the current password
+                
             };
 
             txtPassword.TextChanged += (s, e) => { uniquePassword = txtPassword.Text; };
@@ -130,7 +139,7 @@ namespace AUDIO_STEGNOGRAPHY
             {
                 Text = "Step 4: Preview and Upload",
                 AutoSize = true,
-                Font = new System.Drawing.Font("Segoe UI", 10F),
+                Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold),
                 Location = new System.Drawing.Point(20, 20)
             };
 
@@ -138,7 +147,7 @@ namespace AUDIO_STEGNOGRAPHY
             {
                 Text = "File Path: " + (selectedFilePath ?? "No file selected"),
                 AutoSize = true,
-                Font = new System.Drawing.Font("Segoe UI", 10F),
+                Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold),
                 Location = new System.Drawing.Point(20, 60)
             };
 
@@ -146,12 +155,25 @@ namespace AUDIO_STEGNOGRAPHY
             {
                 Text = "Hidden Message: " + (authorMessage ?? "No message entered"),
                 AutoSize = true,
-                Font = new System.Drawing.Font("Segoe UI", 10F),
+                Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold),
                 Location = new System.Drawing.Point(20, 100)
             };
+
+            Button btnUpload = new Button
+            {
+                Text = "Embed and Save",
+                Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold),
+                Location = new System.Drawing.Point(20, 140),
+                Size = new System.Drawing.Size(220, 30), // Adjusted size
+                BackColor = System.Drawing.Color.Green, // Background color
+                ForeColor = System.Drawing.Color.White, // Text color
+            };
+            btnUpload.Click += BtnUpload_Click;
+
             panelContent.Controls.Add(lblPreview);
             panelContent.Controls.Add(lblFilePath);
             panelContent.Controls.Add(lblMessagePreview);
+            panelContent.Controls.Add(btnUpload);
         }
 
         private void BtnBrowse_Click(object sender, EventArgs e)
@@ -163,10 +185,9 @@ namespace AUDIO_STEGNOGRAPHY
                 {
                     selectedFilePath = openFileDialog.FileName;
                     MessageBox.Show("File selected: " + selectedFilePath, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    btnNext_Click(sender, e);
                 }
             }
-            currentStep++;
-            LoadStep();
         }
 
         private void BtnUpload_Click(object sender, EventArgs e)
@@ -179,12 +200,11 @@ namespace AUDIO_STEGNOGRAPHY
 
             string fileName = Path.GetFileName(selectedFilePath);
             byte[] fileData;
-            string encryptionKey128 = "1234567890abcdef"; // 16 characters
-   
+
             try
             {
                 // Embed the hidden message and password in the audio file
-                fileData = EmbedHiddenMessage(selectedFilePath, authorMessage, uniquePassword, encryptionKey128);
+                fileData = EmbedHiddenMessage(selectedFilePath, authorMessage, uniquePassword);
             }
             catch (Exception ex)
             {
@@ -224,7 +244,7 @@ namespace AUDIO_STEGNOGRAPHY
             }
         }
 
-        private byte[] EmbedHiddenMessage(string filePath, string message, string password, string encryptionKey)
+        private byte[] EmbedHiddenMessage(string filePath, string message, string password)
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -234,16 +254,18 @@ namespace AUDIO_STEGNOGRAPHY
                     inputFileStream.CopyTo(memoryStream);
                 }
 
-                // Encrypt the hidden message and password
-                string hiddenData = message + "|" + password;
-                byte[] encryptedData = EncryptData(hiddenData, encryptionKey);
+                // Embed the hidden message and password with delimiters
+                string hiddenData = "|HIDDEN_DATA_START|" + message + "|" + password + "|HIDDEN_DATA_END|";
+                byte[] hiddenDataBytes = System.Text.Encoding.UTF8.GetBytes(hiddenData);
 
-                // Append the encrypted data to the file
-                memoryStream.Write(encryptedData, 0, encryptedData.Length);
+                // Append the hidden data to the file
+                memoryStream.Write(hiddenDataBytes, 0, hiddenDataBytes.Length);
 
                 return memoryStream.ToArray();
             }
         }
+
+
 
         private void btnPrevious_Click(object sender, EventArgs e)
         {
@@ -254,40 +276,13 @@ namespace AUDIO_STEGNOGRAPHY
             }
         }
 
-        private byte[] EncryptData(string plainText, string key)
-        {
-            using (RijndaelManaged rijndael = new RijndaelManaged())
-            {
-                rijndael.Key = Encoding.UTF8.GetBytes(key.PadRight(32).Substring(0, 32)); // Ensure the key is 32 bytes
-                rijndael.IV = Encoding.UTF8.GetBytes(key.PadRight(16).Substring(0, 16));  // Ensure the IV is 16 bytes
-
-                ICryptoTransform encryptor = rijndael.CreateEncryptor(rijndael.Key, rijndael.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
-                        cryptoStream.Write(plainBytes, 0, plainBytes.Length);
-                        cryptoStream.FlushFinalBlock();
-                        return memoryStream.ToArray();
-                    }
-                }
-            }
-        }
-
         private void btnNext_Click(object sender, EventArgs e)
         {
             if (currentStep < 4)
             {
                 currentStep++;
-                LoadStep();
             }
-            else
-            {
-                // MessageBox.Show("Workflow completed!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
-            }
+            LoadStep();
         }
     }
 }

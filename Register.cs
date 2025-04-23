@@ -13,7 +13,7 @@ namespace AUDIO_STEGNOGRAPHY
             InitializeComponent();
         }
 
-        private void btnRegister_Click(object sender, EventArgs e)
+        public void btnRegister_Click(object sender, EventArgs e)
         {
             // Clear previous error messages
             errorProvider.Clear();

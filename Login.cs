@@ -12,7 +12,7 @@ namespace AUDIO_STEGNOGRAPHY
             InitializeComponent();
         }
 
-        private void btnRegister_Click(object sender, EventArgs e)
+        public void btnRegister_Click(object sender, EventArgs e)
         {
             // Open the Register form
             Register registerForm = new Register();
@@ -21,7 +21,7 @@ namespace AUDIO_STEGNOGRAPHY
         }
 
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        public void btnLogin_Click(object sender, EventArgs e)
         {
             // Clear previous error messages
             errorProvider.Clear();

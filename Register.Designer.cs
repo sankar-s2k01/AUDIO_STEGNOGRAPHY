@@ -4,19 +4,19 @@ namespace AUDIO_STEGNOGRAPHY
 {
     partial class Register
     {
-        private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Label lblUsername;
-        private System.Windows.Forms.TextBox txtUsername;
-        private System.Windows.Forms.Label lblEmail;
-        private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.Label lblConfirmPassword;
-        private System.Windows.Forms.TextBox txtConfirmPassword;
-        private System.Windows.Forms.Button btnRegister;
-        private System.Windows.Forms.Button btnBackToLogin;
-        private System.Windows.Forms.ErrorProvider errorProvider;
+        public System.ComponentModel.IContainer components = null;
+        public System.Windows.Forms.Label lblTitle;
+        public System.Windows.Forms.Label lblUsername;
+        public System.Windows.Forms.TextBox txtUsername;
+        public System.Windows.Forms.Label lblEmail;
+        public System.Windows.Forms.TextBox txtEmail;
+        public System.Windows.Forms.Label lblPassword;
+        public System.Windows.Forms.TextBox txtPassword;
+        public System.Windows.Forms.Label lblConfirmPassword;
+        public System.Windows.Forms.TextBox txtConfirmPassword;
+        public System.Windows.Forms.Button btnRegister;
+        public System.Windows.Forms.Button btnBackToLogin;
+        public System.Windows.Forms.ErrorProvider errorProvider;
 
         protected override void Dispose(bool disposing)
         {
@@ -27,7 +27,7 @@ namespace AUDIO_STEGNOGRAPHY
             base.Dispose(disposing);
         }
 
-        private void btnBackToLogin_Click(object sender, EventArgs e)
+        public void btnBackToLogin_Click(object sender, EventArgs e)
         {
             // Navigate back to the Login form
             Login loginForm = new Login();
@@ -35,7 +35,7 @@ namespace AUDIO_STEGNOGRAPHY
             this.Close(); // Close the Register form
         }
 
-        private void InitializeComponent()
+        public void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             this.lblTitle = new System.Windows.Forms.Label();
@@ -69,7 +69,7 @@ namespace AUDIO_STEGNOGRAPHY
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblUsername.Font = new System.Drawing.Font("Open Sans", 10F);
             this.lblUsername.Location = new System.Drawing.Point(75, 80);
             this.lblUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsername.Name = "lblUsername";
@@ -88,7 +88,7 @@ namespace AUDIO_STEGNOGRAPHY
             // lblEmail
             // 
             this.lblEmail.AutoSize = true;
-            this.lblEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblEmail.Font = new System.Drawing.Font("Open Sans", 10F);
             this.lblEmail.Location = new System.Drawing.Point(75, 130);
             this.lblEmail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblEmail.Name = "lblEmail";
@@ -107,7 +107,7 @@ namespace AUDIO_STEGNOGRAPHY
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblPassword.Font = new System.Drawing.Font("Open Sans", 10F);
             this.lblPassword.Location = new System.Drawing.Point(75, 180);
             this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPassword.Name = "lblPassword";
@@ -127,7 +127,7 @@ namespace AUDIO_STEGNOGRAPHY
             // lblConfirmPassword
             // 
             this.lblConfirmPassword.AutoSize = true;
-            this.lblConfirmPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblConfirmPassword.Font = new System.Drawing.Font("Open Sans", 10F);
             this.lblConfirmPassword.Location = new System.Drawing.Point(75, 230);
             this.lblConfirmPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblConfirmPassword.Name = "lblConfirmPassword";
@@ -147,7 +147,7 @@ namespace AUDIO_STEGNOGRAPHY
             // btnRegister
             // 
             this.btnRegister.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnRegister.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnRegister.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
             this.btnRegister.ForeColor = System.Drawing.Color.White;
             this.btnRegister.Location = new System.Drawing.Point(153, 290);
             this.btnRegister.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -161,7 +161,7 @@ namespace AUDIO_STEGNOGRAPHY
             // btnBackToLogin
             // 
             this.btnBackToLogin.BackColor = System.Drawing.Color.White;
-            this.btnBackToLogin.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnBackToLogin.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
             this.btnBackToLogin.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnBackToLogin.Location = new System.Drawing.Point(331, 290);
             this.btnBackToLogin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);

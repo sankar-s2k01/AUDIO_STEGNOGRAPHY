@@ -17,7 +17,7 @@ namespace AUDIO_STEGNOGRAPHY
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // DatabaseInitializer.InitializeDatabase();
+            //DatabaseInitializer.InitializeDatabase();
             Application.Run(new Login());
         }
     }

@@ -63,7 +63,7 @@
 
             // btnEmbedData
             this.btnEmbedData.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnEmbedData.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnEmbedData.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
             this.btnEmbedData.ForeColor = System.Drawing.Color.White;
             this.btnEmbedData.Location = new System.Drawing.Point(20, 50);
             this.btnEmbedData.Name = "btnEmbedData";
@@ -75,7 +75,7 @@
 
             // btnExtractData
             this.btnExtractData.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnExtractData.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnExtractData.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
             this.btnExtractData.ForeColor = System.Drawing.Color.White;
             this.btnExtractData.Location = new System.Drawing.Point(20, 120);
             this.btnExtractData.Name = "btnExtractData";
@@ -98,7 +98,7 @@
 
             // btnDownload
             this.btnDownload.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnDownload.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnDownload.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
             this.btnDownload.ForeColor = System.Drawing.Color.White;
             this.btnDownload.Location = new System.Drawing.Point(20, 320);
             this.btnDownload.Name = "btnDownload";

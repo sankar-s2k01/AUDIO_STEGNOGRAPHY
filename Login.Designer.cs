@@ -2,15 +2,15 @@
 {
     partial class Login
     {
-        private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Label lblUsername;
-        private System.Windows.Forms.TextBox txtUsername;
-        private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.Button btnLogin;
-        private System.Windows.Forms.Button btnRegister;
-        private System.Windows.Forms.ErrorProvider errorProvider; // Declare errorProvider
+        public System.ComponentModel.IContainer components = null;
+        public System.Windows.Forms.Label lblTitle;
+        public System.Windows.Forms.Label lblUsername;
+        public System.Windows.Forms.TextBox txtUsername;
+        public System.Windows.Forms.Label lblPassword;
+        public System.Windows.Forms.TextBox txtPassword;
+        public System.Windows.Forms.Button btnLogin;
+        public System.Windows.Forms.Button btnRegister;
+        public System.Windows.Forms.ErrorProvider errorProvider; // Declare errorProvider
 
         protected override void Dispose(bool disposing)
         {
@@ -21,7 +21,7 @@
             base.Dispose(disposing);
         }
 
-        private void InitializeComponent()
+        public void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             this.lblTitle = new System.Windows.Forms.Label();
@@ -51,7 +51,7 @@
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblUsername.Font = new System.Drawing.Font("Open Sans", 10F);
             this.lblUsername.Location = new System.Drawing.Point(75, 123);
             this.lblUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsername.Name = "lblUsername";
@@ -70,7 +70,7 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblPassword.Font = new System.Drawing.Font("Open Sans", 10F);
             this.lblPassword.Location = new System.Drawing.Point(75, 185);
             this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPassword.Name = "lblPassword";
@@ -90,7 +90,7 @@
             // btnLogin
             // 
             this.btnLogin.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnLogin.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnLogin.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
             this.btnLogin.ForeColor = System.Drawing.Color.White;
             this.btnLogin.Location = new System.Drawing.Point(145, 262);
             this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -104,7 +104,7 @@
             // btnRegister
             // 
             this.btnRegister.BackColor = System.Drawing.Color.White;
-            this.btnRegister.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnRegister.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
             this.btnRegister.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnRegister.Location = new System.Drawing.Point(327, 262);
             this.btnRegister.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);

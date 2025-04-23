@@ -54,7 +54,7 @@
             // btnExtract
             // 
             this.btnExtract.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnExtract.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnExtract.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
             this.btnExtract.ForeColor = System.Drawing.Color.White;
             this.btnExtract.Location = new System.Drawing.Point(400, 400);
             this.btnExtract.Name = "btnExtract";
@@ -67,7 +67,7 @@
             // btnBrowse
             // 
             this.btnBrowse.BackColor = System.Drawing.Color.White;
-            this.btnBrowse.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnBrowse.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
             this.btnBrowse.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnBrowse.Location = new System.Drawing.Point(20, 400);
             this.btnBrowse.Name = "btnBrowse";
@@ -79,7 +79,7 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtPassword.Font = new System.Drawing.Font("Open Sans", 10F);
             this.txtPassword.Location = new System.Drawing.Point(200, 350);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
@@ -89,8 +89,8 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblPassword.Location = new System.Drawing.Point(100, 350);
+            this.lblPassword.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
+            this.lblPassword.Location = new System.Drawing.Point(50, 350);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(94, 23);
             this.lblPassword.TabIndex = 5;
@@ -99,7 +99,7 @@
             // lblFilePath
             // 
             this.lblFilePath.AutoSize = true;
-            this.lblFilePath.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblFilePath.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
             this.lblFilePath.Location = new System.Drawing.Point(20, 300);
             this.lblFilePath.Name = "lblFilePath";
             this.lblFilePath.Size = new System.Drawing.Size(0, 23);
